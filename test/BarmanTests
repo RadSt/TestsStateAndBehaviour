@@ -1,0 +1,34 @@
+import assert from 'assert';
+
+import {Barman} from '../src/barman/barman';
+
+
+suite('Stub: when client ask 200 grams of whisky', function () {
+    const askedVolume = 200;
+    suite('not Adult client', function () {
+        let clientStub = {
+            isAdultClient() {
+                return false;
+            },
+            isDrunken(){
+                return false;
+            },
+            getOrdersCount(){
+                return 0;
+            }
+        }
+
+        let barman = new Barman(clientStub);
+
+        test('Barmen NOT Give whisky', function () {
+
+            let glassOfWhisky = barman.pour(clientStub, askedVolume);
+
+            assert.equal(false, glassOfWhisky);
+
+        })
+    });
+});
+
+
+
