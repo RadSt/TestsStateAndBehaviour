@@ -30,25 +30,36 @@ suite('Stub: when client ask 200 grams of whisky', function () {
     });
 
     suite('barman has enough', function () {
-        let clientStub = {
-            isAdultClient() {
-                return true;
-            },
-            isDrunken(){
-                return false;
-            },
-            getOrdersCount(){
-                return 0;
-            }
-        }
 
-        let barman = new Barman(clientStub);
         test('barman pour 200 gram whisky', function () {
-
+            let clientStub = {
+                isAdultClient() {
+                    return true;
+                },
+                isDrunken(){
+                    return false;
+                },
+                getOrdersCount(){
+                    return 0;
+                }
+            }
+            let barman = new Barman(clientStub);
             let volumeInGlass = barman.pour(clientStub, askedVolume);
 
             assert.equal(volumeInGlass, askedVolume);
         })
+
+        test('client became drunk', function () {
+            let clientStub = {
+                isDrunken(volume){
+                    return volume > 150;
+                }
+            }
+
+            let isDrunken = clientStub.isDrunken(askedVolume);
+
+            assert.equal(true, isDrunken);
+        });
 
     });
 });
