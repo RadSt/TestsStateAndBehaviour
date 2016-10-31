@@ -28,6 +28,29 @@ suite('Stub: when client ask 200 grams of whisky', function () {
 
         })
     });
+
+    suite('barman has enough', function () {
+        let clientStub = {
+            isAdultClient() {
+                return true;
+            },
+            isDrunken(){
+                return false;
+            },
+            getOrdersCount(){
+                return 0;
+            }
+        }
+
+        let barman = new Barman(clientStub);
+        test('barman pour 200 gram whisky', function () {
+
+            let volumeInGlass = barman.pour(clientStub, askedVolume);
+
+            assert.equal(volumeInGlass, askedVolume);
+        })
+
+    });
 });
 
 
