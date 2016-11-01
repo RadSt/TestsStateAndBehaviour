@@ -45,4 +45,23 @@ suite('when client send message', function () {
             messengerMock.verify();
         });
     });
+
+    suite('to many person', function () {
+        test('message sended', function () {
+            let userStub = {
+                isLogIn: function () {
+                    return true;
+                }
+            };
+            let partner = new Array<Partner>({});
+            let messenger = new Messenger(userStub);
+            let messengerMock = sinon.mock(messenger);
+            messengerMock.expects('sendMessage')
+                .once();
+
+            messenger.sendMessage(partner);
+
+            messengerMock.verify();
+        });
+    });
 });
