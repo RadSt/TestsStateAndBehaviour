@@ -1,0 +1,27 @@
+import sinon from 'sinon';
+import { Partner } from '../src/messenger/partner';
+import { User } from '../src/messenger/user';
+import { Messenger } from '../src/messenger/messenger';
+
+
+suite('when client open contact list', function () {
+    suite('messenger has it', function () {
+        test('client get contact list', function () {
+            let userStub = {
+                isLogIn: function () {
+                    return true;
+                }
+            };
+            let partners = new Array<Partner>({});
+            let messenger = new Messenger(userStub);
+            let messengerMock = sinon.mock(messenger);
+            messengerMock.expects('getContactsList')
+                .once()
+                .returns(partners != null);
+
+            partners = messenger.getContactsList();
+
+            messengerMock.verify();
+        });
+    });
+});
