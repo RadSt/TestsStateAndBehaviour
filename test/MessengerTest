@@ -25,3 +25,24 @@ suite('when client open contact list', function () {
         });
     });
 });
+
+suite('when client send message', function () {
+    suite('to one person', function () {
+        test('message sended', function () {
+            let userStub = {
+                isLogIn: function () {
+                    return true;
+                }
+            };
+            let partner = new Partner();
+            let messenger = new Messenger(userStub);
+            let messengerMock = sinon.mock(messenger);
+            messengerMock.expects('sendMessage')
+                .once();
+
+            messenger.sendMessage(partner);
+
+            messengerMock.verify();
+        });
+    });
+});
