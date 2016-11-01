@@ -2,27 +2,30 @@
 
 export class Barman {
 
+    ordersCount = 0;
     client;
 
     constructor(client){
         this.client = client;
     }
 
-    pour(client, askedVolume){
-        if(client.isDrunken(askedVolume)){
+    pour(askedVolume){
+        this.ordersCount++;
+
+        if(this.client.isDrunken(askedVolume)){
             return 0;
         }
 
-        if(client.getOrdersCount() > 4){
+        if(this.ordersCount > 4){
             throw new Error('We dont give more 4 glasses');
+            return 0;
         }
 
-        if(!client.isAdultClient()){
+        if(!this.client.isAdultClient()){
             return 0;
         }
 
         return askedVolume;
-
     }
 
 }

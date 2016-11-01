@@ -22,9 +22,9 @@ suite('Stub: when client ask 200 grams of whisky', function () {
 
         test('Barmen NOT Give whisky', function () {
 
-            let glassOfWhisky = barman.pour(clientStub, askedVolume);
+            let glassOfWhisky = barman.pour(askedVolume);
 
-            assert.equal(false, glassOfWhisky);
+            assert.equal(glassOfWhisky, false);
 
         })
     });
@@ -44,25 +44,68 @@ suite('Stub: when client ask 200 grams of whisky', function () {
                 }
             }
             let barman = new Barman(clientStub);
-            let volumeInGlass = barman.pour(clientStub, askedVolume);
+            let volumeInGlass = barman.pour(askedVolume);
 
-            assert.equal(volumeInGlass, askedVolume);
+            assert.equal(askedVolume, volumeInGlass);
         })
 
         test('client became drunk', function () {
             let clientStub = {
-                isDrunken(volume){
-                    return volume > 150;
+                totalyDrunked: 0,
+
+                drink(volume) {
+                    this.totalyDrunked += volume;
+                    return volume;
+                },
+                isDrunken() {
+                    return this.totalyDrunked > 150;
                 }
             }
 
-            let isDrunken = clientStub.isDrunken(askedVolume);
+            let drinkFiftyGramm = clientStub.drink(50);
+            let drinkOneHundredAndFiftyGramm = clientStub.drink(150);
 
-            assert.equal(true, isDrunken);
+            let isDrunken = clientStub.isDrunken();
+
+            assert.equal(isDrunken, true);
         });
 
     });
 });
+
+suite('client order more 4 time', function () {
+
+    test('Barmen NOT Give whisky', function () {
+        let clientStub = {
+            ordersCount: 0,
+            drink(volume) {
+                this.ordersCount++;
+                return volume;
+            },
+            getOrdersCount(){
+                return this.ordersCount;
+            },
+            isAdultClient() {
+                return true;
+            },
+            isDrunken(){
+                return false;
+            },
+
+        }
+        let askedVolume = 50;
+        let barman = new Barman(clientStub);
+        let firstAskedDrink = barman.pour(askedVolume);
+        let seconfAskedDrink = barman.pour(askedVolume);
+        let firdAskedDrink = barman.pour(askedVolume);
+        let fourthtAskedDrink = barman.pour(askedVolume);
+
+        assert.throws(function () {
+            barman.pour(askedVolume)
+        }, /We dont give more 4 glasses/);
+    })
+});
+
 
 
 
