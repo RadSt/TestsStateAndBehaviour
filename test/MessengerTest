@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 import { Partner } from '../src/messenger/partner';
-import { User } from '../src/messenger/user';
 import { Messenger } from '../src/messenger/messenger';
 
 
