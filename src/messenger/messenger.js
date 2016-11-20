@@ -19,7 +19,11 @@ export class Messenger {
      }
 
      getContactsList(){
-          //Обращаемся в бд за списком контактов возвращаем в ответ
+          this.getContactsFromDBase();
+     }
+
+     //Обращаемся в бд за списком контактов возвращаем в ответ
+     getContactsFromDBase(){
           if(user.isLogIn()){
                return this.partners;
           }
@@ -27,9 +31,15 @@ export class Messenger {
      }
 
      sendMessage(partners){
-          let contactParters = partners.map( x=> x.isInContactList())
-          if(contactParters.length > 0){
-               chat.SendMessage(partners);
-          }
+
+          if(Array.isArray(partners))
+               partners = partners.map( x => x.isInContactList());
+
+             this.sendMessageByApi(partners);
      }
+
+     // Обращение к в внешнему api по отправке сообщения
+     sendMessageByApi(partners){
+
+     };
 }

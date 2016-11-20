@@ -5,20 +5,22 @@ import { Messenger } from '../src/messenger/messenger';
 
 suite('when client open contact list', function () {
     suite('messenger has it', function () {
-        test('client get contact list', function () {
+        test('messenger get contacts from Database', function () {
             let userStub = {
                 isLogIn: function () {
                     return true;
                 }
             };
-            let partners = new Array<Partner>({});
+
+            let contacts = new Array<Partner>({});
             let messenger = new Messenger(userStub);
             let messengerMock = sinon.mock(messenger);
-            messengerMock.expects('getContactsList')
-                .once()
-                .returns(partners != null);
 
-            partners = messenger.getContactsList();
+            messengerMock.expects('getContactsFromDBase')
+                .once()
+                .returns(contacts != null);
+
+            contacts = messenger.getContactsList();
 
             messengerMock.verify();
         });
@@ -27,7 +29,7 @@ suite('when client open contact list', function () {
 
 suite('when client send message', function () {
     suite('to one person', function () {
-        test('message sended', function () {
+        test('messenger send message by Api', function () {
             let userStub = {
                 isLogIn: function () {
                     return true;
@@ -36,7 +38,7 @@ suite('when client send message', function () {
             let partner = new Partner();
             let messenger = new Messenger(userStub);
             let messengerMock = sinon.mock(messenger);
-            messengerMock.expects('sendMessage')
+            messengerMock.expects('sendMessageByApi')
                 .once();
 
             messenger.sendMessage(partner);
@@ -46,7 +48,7 @@ suite('when client send message', function () {
     });
 
     suite('to many person', function () {
-        test('message sended', function () {
+        test('messenger send messages to partners by Api', function () {
             let userStub = {
                 isLogIn: function () {
                     return true;
@@ -55,7 +57,7 @@ suite('when client send message', function () {
             let partner = new Array<Partner>({});
             let messenger = new Messenger(userStub);
             let messengerMock = sinon.mock(messenger);
-            messengerMock.expects('sendMessage')
+            messengerMock.expects('sendMessageByApi')
                 .once();
 
             messenger.sendMessage(partner);
