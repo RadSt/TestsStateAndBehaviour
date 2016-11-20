@@ -22,12 +22,8 @@ export class Messenger {
           this.getContactsFromDBase();
      }
 
-     //Обращаемся в бд за списком контактов возвращаем в ответ
+     //Обращаемся в бд за списком контактов
      getContactsFromDBase(){
-          if(user.isLogIn()){
-               return this.partners;
-          }
-          return null;
      }
 
      sendMessage(partners){
